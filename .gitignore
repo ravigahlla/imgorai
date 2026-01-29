@@ -1,0 +1,63 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.env
+.envrc
+
+# API Keys and credentials
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials/
+config/secrets.json
+config/credentials.json
+
+# GitHub tokens and keys
+.github_token
+.github_api_key
+GITHUB_TOKEN
+GITHUB_API_KEY
+
+# Node modules (if using Node.js)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if using Python)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Cursor specific (optional - remove if you want to track cursor configs)
+# .cursor/
