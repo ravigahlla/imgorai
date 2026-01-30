@@ -7,7 +7,9 @@
     "dev": "vite build --watch --mode development",
     "build": "tsc && vite build",
     "lint": "eslint src --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "npm run setup-wasm",
+    "setup-wasm": "mkdir -p public/wasm && cp node_modules/c2pa/dist/assets/wasm/toolkit_bg.wasm public/wasm/ && cp node_modules/c2pa/dist/c2pa.worker.min.js public/wasm/"
   },
   "dependencies": {
     "c2pa": "^0.30.0"

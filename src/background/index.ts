@@ -11,12 +11,19 @@ interface VerifyResponse {
   error?: string;
 }
 
+console.log('[imgorai Background] Service worker started');
+
 chrome.runtime.onMessage.addListener(
   (message: VerifyMessage, _sender, sendResponse: (response: VerifyResponse) => void) => {
     if (message.type === 'VERIFY_IMAGE') {
+      console.log('[imgorai Background] Received verify request:', message.imageUrl);
       handleVerification(message.imageUrl)
-        .then(sendResponse)
+        .then((response) => {
+          console.log('[imgorai Background] Verification result:', response);
+          sendResponse(response);
+        })
         .catch((error) => {
+          console.error('[imgorai Background] Verification error:', error);
           sendResponse({
             success: false,
             error: error instanceof Error ? error.message : 'Unknown error',

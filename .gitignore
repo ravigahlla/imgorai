@@ -50,6 +50,9 @@ dist/
 build/
 *.log
 
+# WASM files (copied from node_modules)
+public/wasm/
+
 # Temporary files
 tmp/
 temp/

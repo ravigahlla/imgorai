@@ -16,19 +16,23 @@ async function verifyImageElement(img: HTMLImageElement): Promise<void> {
   img.dataset.imgoraiChecked = 'true';
 
   const imageUrl = img.src || img.currentSrc;
+  console.log('[imgorai] Checking image:', imageUrl);
   if (!imageUrl || imageUrl.startsWith('data:image/svg')) return;
 
   try {
+    console.log('[imgorai] Sending verify request for:', imageUrl);
     const response: VerifyResponse = await chrome.runtime.sendMessage({
       type: 'VERIFY_IMAGE',
       imageUrl,
     });
+    console.log('[imgorai] Got response:', response);
 
     if (response.success && response.status) {
+      console.log('[imgorai] Adding badge with status:', response.status);
       addBadge(img, response.status);
     }
   } catch (error) {
-    console.error('[ImGORAI] Failed to verify image:', error);
+    console.error('[imgorai] Failed to verify image:', error);
   }
 }
 
@@ -107,6 +111,17 @@ styles.textContent = `
   .${NO_CREDENTIALS_CLASS} { background: #6b7280; }
 `;
 document.head.appendChild(styles);
+
+// Listen for messages from popup
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message.type === 'SCAN_PAGE') {
+    const images = document.querySelectorAll<HTMLImageElement>('img');
+    console.log('[imgorai] SCAN_PAGE received, found', images.length, 'images');
+    images.forEach(verifyImageElement);
+    sendResponse({ success: true });
+  }
+  return true;
+});
 
 // Start observing when DOM is ready
 if (document.readyState === 'loading') {

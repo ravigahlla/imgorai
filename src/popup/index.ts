@@ -7,13 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      if (tab.id) {
-        await chrome.tabs.sendMessage(tab.id, { type: 'SCAN_PAGE' });
-        if (statusEl) statusEl.textContent = 'Scan complete. Check images for badges.';
+      console.log('[imgorai] Current tab:', tab);
+
+      if (!tab?.id) {
+        if (statusEl) statusEl.textContent = 'No active tab found.';
+        return;
       }
+
+      if (tab.url?.startsWith('chrome://') || tab.url?.startsWith('chrome-extension://')) {
+        if (statusEl) statusEl.textContent = 'Cannot scan browser pages.';
+        return;
+      }
+
+      const response = await chrome.tabs.sendMessage(tab.id, { type: 'SCAN_PAGE' });
+      console.log('[imgorai] Scan response:', response);
+      if (statusEl) statusEl.textContent = 'Scan complete. Check images for badges.';
     } catch (error) {
-      if (statusEl) statusEl.textContent = 'Error scanning page.';
-      console.error('[ImGORAI] Scan error:', error);
+      console.error('[imgorai] Scan error:', error);
+      if (statusEl) statusEl.textContent = 'Reload the page and try again.';
     }
   });
 });

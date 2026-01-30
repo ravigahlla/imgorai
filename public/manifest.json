@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ImGORAI - C2PA Image Verifier",
+  "name": "imgorai - C2PA Image Verifier",
   "version": "0.1.0",
   "description": "Verify image authenticity using C2PA content credentials",
   "permissions": [

@@ -26,7 +26,7 @@ export async function verifyImage(imageUrl: string): Promise<C2paReadResult | nu
     const result = await c2paInstance!.read(blob);
     return result;
   } catch (error) {
-    console.error('[ImGORAI] Verification failed:', error);
+    console.error('[imgorai] Verification failed:', error);
     return null;
   }
 }
